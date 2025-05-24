@@ -1,0 +1,44 @@
+name: Build APK with Buildozer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: ⚙️ Setup dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential ccache git unzip openjdk-17-jdk python3-pip libffi-dev libssl-dev libsqlite3-dev zlib1g-dev
+        pip install --upgrade pip
+        pip install cython==0.29.36 buildozer
+
+    - name: 📦 Install Android SDK command line tools
+      run: |
+        mkdir -p "$HOME/android-sdk"
+        cd "$HOME/android-sdk"
+        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+        unzip cmdline-tools.zip
+        mkdir -p cmdline-tools/latest
+        mv cmdline-tools/* cmdline-tools/latest/
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+        yes | sdkmanager --licenses
+        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+
+    - name: 🛠️ Build APK
+      run: |
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+        buildozer -v android debug
+
+    - name: 📤 Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: talka-apk
+        path: bin/*.apk

@@ -1,46 +1,39 @@
+
 [app]
 title = Talka
 package.name = talka
-package.domain = org.danitalka
+package.domain = org.danitalk
 source.dir = .
-source.include_exts = py,kv,png,ttf,mp3
-version = 1.0
-requirements = python3,kivy,speechrecognition,pygame,translate
+source.include_exts = py,png,kv,atlas
+version = 0.1
+requirements = python3,kivy,pygame,requests,speechrecognition,googletrans==4.0.0rc1,gtts,pydub
 orientation = portrait
+icon.filename = icon.png
 fullscreen = 1
-icon.filename = logo.png
 
 [buildozer]
 log_level = 2
 warn_on_root = 1
 
-[python]
-android_private_storage = 1
-
 [android]
 android.api = 31
 android.minapi = 21
-android.archs = arm64-v8a,armeabi-v7a
-android.permissions = INTERNET,RECORD_AUDIO
-android.ndk = 23b
-android.gradle_dependencies = 
-android.gradle_plugins = 
-android.add_src = 
-android.add_jars = 
-android.add_aars = 
-android.copy_libs = 1
+android.ndk = 25b
+android.accept_sdk_license = True
+android.sdk_path = /root/.buildozer/android/platform/android-sdk
+android.build_tools_version = 34.0.0
+android.archs = armeabi-v7a, arm64-v8a
+android.permissions = INTERNET, RECORD_AUDIO
+android.allow_backup = 1
 
-[android.packaging_options]
-# leave empty
+[android.packaging]
+presplash.filename = icon.png
 
-[android.sign]
-# leave empty unless signing manually
+[android.extra_packages]
+android.use_android_native_audio = 1
 
-[android.xpermissions]
-# leave empty
+[buildozer.plugins]
+enabled = android
 
-[ios]
-# Not relevant
-
-[buildozer.android]
-# enable Android builds
+[hostpython]
+version = 3.10
