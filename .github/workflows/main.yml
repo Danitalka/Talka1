@@ -18,12 +18,18 @@ jobs:
         pip install --upgrade pip
         pip install cython==0.29.36 buildozer
 
+    - name: 📦 Install Android SDK Build Tools
+      run: |
+        mkdir -p $HOME/.android && echo "### User Sources for Android SDK Manager ###" > $HOME/.android/repositories.cfg
+        yes | sdkmanager --licenses || true
+        yes | sdkmanager "build-tools;33.0.2" "platform-tools" "platforms;android-33"
+
     - name: 🛠️ Build APK
       run: |
         buildozer -v android debug
 
-    - name: 📦 Upload APK artifact
+    - name: 📤 Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: Talka-APK
+        name: talka-apk
         path: bin/*.apk
