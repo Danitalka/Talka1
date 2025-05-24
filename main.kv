@@ -1,0 +1,32 @@
+<RootWidget>:
+    orientation: 'vertical'
+    padding: 20
+    spacing: 20
+
+    Spinner:
+        id: lang_spinner
+        text: 'Seleziona lingua'
+        size_hint_y: None
+        height: 50
+
+    TextInput:
+        id: output_label
+        text: 'Premi il bottone per iniziare'
+        size_hint_y: None
+        height: 150
+        readonly: True
+
+    Button:
+        text: '📋 Copia traduzione'
+        size_hint_y: None
+        height: 50
+        on_release:
+            root.copia_traduzione()
+
+    Button:
+        id: parla_btn
+        text: '🎙️ Parla ora'
+        size_hint_y: None
+        height: 80
+        on_release:
+            root.start_process()
