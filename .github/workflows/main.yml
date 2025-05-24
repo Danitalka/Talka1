@@ -18,10 +18,6 @@ jobs:
         pip install --upgrade pip
         pip install cython==0.29.36 buildozer
 
-    - name: 🔧 Install build tools
-      run: |
-        buildozer android clean
-
     - name: 🛠️ Build APK
       run: |
         buildozer -v android debug
